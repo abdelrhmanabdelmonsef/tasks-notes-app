@@ -1,0 +1,31 @@
+### Auth - Login
+POST http://localhost:3001/auth/login
+Content-Type: application/json
+
+{
+    "email": "test@test.com",
+    "password": "12345678"
+}
+
+###
+
+### Tasks - Get All
+GET http://localhost:3001/tasks
+
+###
+
+### Tasks - Get By ID
+GET http://localhost:3001/tasks/1
+
+###
+
+### Tasks - Create
+POST http://localhost:3001/tasks
+Content-Type: application/json
+
+{
+    "title": "My new task",
+    "description": "Task description",
+    "completed": false,
+    "priority": "high"
+}
