@@ -6,7 +6,7 @@ import { CreateUsersDto } from './dto/create-users.dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-user.dto/update-user.dto';
 import { UserResponseDto } from './dto/user-response.dto/user-response.dto';
 import { IapiresponseInterface } from '../interfaces/iapiresponse.interface/iapiresponse.interface';
-
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -17,7 +17,8 @@ export class UsersService {
     ) {}
 
     async createUser(createUsersDto: CreateUsersDto): Promise<IapiresponseInterface<UserResponseDto>> {
-        const user = this.usersRepository.create(createUsersDto);
+        const hashedPassword = await bcrypt.hash(createUsersDto.password, 12);
+        const user = this.usersRepository.create({...createUsersDto, password: hashedPassword});
         const savedUser = await this.usersRepository.save(user);
         return { message: 'User created successfully', data: savedUser, status: HttpStatus.CREATED };
     }
@@ -32,6 +33,14 @@ export class UsersService {
             throw new NotFoundException('User not found');
         }
         return { message: 'User found successfully', data: user, status: HttpStatus.OK };
+    }
+    async findUserByEmail(email: string): Promise<UserEntity | null> {
+        const user = await this.usersRepository.findOne({ where: { email } }) as UserEntity;
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }   
+        return user;
+
     }
     async deleteUser(id: number): Promise<IapiresponseInterface<UserResponseDto>> {
         const user = await this.usersRepository.findOne({ where: { id } });
@@ -60,8 +69,12 @@ export class UsersService {
         if (!user) {
             throw new NotFoundException('User not found');
         }
+        const updatedUser = { ...user, ...updateUsersDto };
+        if (updatedUser.password) {
+            updatedUser.password = await bcrypt.hash(updatedUser.password, 12);
+        }
+        await this.usersRepository.update(id, updatedUser);
 
-        await this.usersRepository.update(id, updateUsersDto);
         const updatedUserData = await this.usersRepository.findOne({ where: { id } });
         if (!updatedUserData) {
             throw new NotFoundException('User not found');

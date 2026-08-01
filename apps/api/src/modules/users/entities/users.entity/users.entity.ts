@@ -1,5 +1,6 @@
 import { TasksEntity } from "src/modules/tasks/entities/tasks.entity/tasks.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Exclude } from "class-transformer";
 
 
 @Entity('users')
@@ -19,6 +20,7 @@ export class UserEntity {
     @Column({ unique: true })
     email!: string;
 
+    @Exclude()
     @Column()
     password!: string;
 }

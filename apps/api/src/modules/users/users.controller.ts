@@ -2,6 +2,8 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/commo
 import { UsersService } from './users.service';
 import { CreateUsersDto } from './dto/create-users.dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-user.dto/update-user.dto';
+import { IapiresponseInterface } from '../interfaces/iapiresponse.interface/iapiresponse.interface';
+import { UserResponseDto } from './dto/user-response.dto/user-response.dto';
 
 
 
@@ -9,26 +11,26 @@ import { UpdateUsersDto } from './dto/update-user.dto/update-user.dto';
 export class UsersController {
     constructor(private usersService: UsersService) {}
     @Post()
-    createUser(@Body() createUsersDto: CreateUsersDto) {
-        return this.usersService.createUser(createUsersDto);
+    async createUser(@Body() createUsersDto: CreateUsersDto) :Promise<IapiresponseInterface<UserResponseDto>> {
+        return await this.usersService.createUser(createUsersDto);
     }
 
     @Get()
-    findAllUsers() {
-        return this.usersService.findAllUsers();
+    async findAllUsers() :Promise<IapiresponseInterface<UserResponseDto>> {
+        return await this.usersService.findAllUsers();
     }
 
     @Get(':id')
-    findUserById(@Param('id') id: number) {
-        return this.usersService.findUserById(id);
+    async findUserById(@Param('id') id: number) :Promise<IapiresponseInterface<UserResponseDto>> {
+        return await this.usersService.findUserById(id);
     }
 
     @Delete(':id')
-    deleteUser(@Param('id') id: number) {
-        return this.usersService.deleteUser(id);
+    async deleteUser(@Param('id') id: number) :Promise<IapiresponseInterface<UserResponseDto>> {
+        return await this.usersService.deleteUser(id);
     }
     @Patch(':id')
-    updateUser(@Param('id') id: number, @Body() updateUsersDto: UpdateUsersDto) {
-        return this.usersService.updateUser(id, updateUsersDto);
+    async updateUser(@Param('id') id: number, @Body() updateUsersDto: UpdateUsersDto) :Promise<IapiresponseInterface<UserResponseDto>> {
+        return await this.usersService.updateUser(id, updateUsersDto);
     }
 }
