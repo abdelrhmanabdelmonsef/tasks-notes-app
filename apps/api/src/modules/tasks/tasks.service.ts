@@ -94,8 +94,9 @@ export class TasksService {
                 sortOrder: sortOrder
             } };
     }
-    async findTaskById(id: number): Promise<IapiresponseInterface<TasksEntity> >{
-        const task = await this.tasksRepository.findOne({ where: { id }, relations: { user: true } });
+    async findTaskById(id: number , user :JwtPayload): Promise<IapiresponseInterface<TasksEntity> >{
+        
+        const task = await this.tasksRepository.findOne({ where: { id , user: { id: user.id } }, relations: { user: true } });
         if (!task) {
             throw new NotFoundException('Task not found');
         }

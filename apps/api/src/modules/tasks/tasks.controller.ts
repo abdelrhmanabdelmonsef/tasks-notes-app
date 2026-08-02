@@ -22,8 +22,8 @@ export class TasksController {
     }
 
     @Get(':id')
-    async findTaskById(@Param('id', ParseIntPipe) id: number) {
-        return this.tasksService.findTaskById(id);
+    async findTaskById(@Param('id', ParseIntPipe) id: number ,@CurrentUser() user: JwtPayload) {
+        return this.tasksService.findTaskById(id ,user);
     }
 
     @Patch(':id')
