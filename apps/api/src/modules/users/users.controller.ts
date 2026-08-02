@@ -1,10 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUsersDto } from './dto/create-users.dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-user.dto/update-user.dto';
 import { IapiresponseInterface } from '../interfaces/iapiresponse.interface/iapiresponse.interface';
 import { UserResponseDto } from './dto/user-response.dto/user-response.dto';
-
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 
 @Controller('users')
@@ -16,11 +16,13 @@ export class UsersController {
     }
 
     @Get()
+    @UseGuards(JwtAuthGuard)
     async findAllUsers() :Promise<IapiresponseInterface<UserResponseDto>> {
         return await this.usersService.findAllUsers();
     }
 
     @Get(':id')
+    @UseGuards(JwtAuthGuard)
     async findUserById(@Param('id') id: number) :Promise<IapiresponseInterface<UserResponseDto>> {
         return await this.usersService.findUserById(id);
     }
