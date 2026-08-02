@@ -56,11 +56,12 @@ export class TasksService {
         };
     }
 
-    async findAllTasks(tasksQueryDto: TasksQueryDto): Promise<IapiresponseInterface<TasksEntity> > {
+    async findAllTasks(tasksQueryDto: TasksQueryDto, user: UserEntity): Promise<IapiresponseInterface<TasksEntity> > {
         const { completed, priority, page=1, limit=5, sortField='id', sortOrder='asc' } = tasksQueryDto;
 
         const tasks =  this.tasksRepository.createQueryBuilder('task')
         .leftJoinAndSelect('task.user', 'user')
+        .where('user.id = :userId', { userId: user.id });
         if (completed !== undefined) {
             tasks.andWhere('task.completed = :completed', { completed });
         }

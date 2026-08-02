@@ -4,7 +4,7 @@ import { CreateUsersDto } from './dto/create-users.dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-user.dto/update-user.dto';
 import { IapiresponseInterface } from '../interfaces/iapiresponse.interface/iapiresponse.interface';
 import { UserResponseDto } from './dto/user-response.dto/user-response.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 
 @Controller('users')
