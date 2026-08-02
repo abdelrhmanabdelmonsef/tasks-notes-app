@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TasksEntity } from './entities/tasks.entity/tasks.entity';
 import { UserEntity } from '../users/entities/users.entity/users.entity';
 import { IapiresponseInterface } from '../interfaces/iapiresponse.interface/iapiresponse.interface';
+import { JwtPayload } from '../auth/interfaces/jwtPayload.interface';
 
 
 const sortFieldMap = {
@@ -56,7 +57,7 @@ export class TasksService {
         };
     }
 
-    async findAllTasks(tasksQueryDto: TasksQueryDto, user: UserEntity): Promise<IapiresponseInterface<TasksEntity> > {
+    async findAllTasks(tasksQueryDto: TasksQueryDto, user: JwtPayload): Promise<IapiresponseInterface<TasksEntity> > {
         const { completed, priority, page=1, limit=5, sortField='id', sortOrder='asc' } = tasksQueryDto;
 
         const tasks =  this.tasksRepository.createQueryBuilder('task')
