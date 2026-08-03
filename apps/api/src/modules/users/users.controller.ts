@@ -31,10 +31,14 @@ export class UsersController {
     }
 
     @Delete(':id')
+    @Roles(Role.ADMIN)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     async deleteUser(@Param('id') id: number) :Promise<IapiresponseInterface<UserResponseDto>> {
         return await this.usersService.deleteUser(id);
     }
+
     @Patch(':id')
+    @UseGuards(JwtAuthGuard)
     async updateUser(@Param('id') id: number, @Body() updateUsersDto: UpdateUsersDto) :Promise<IapiresponseInterface<UserResponseDto>> {
         return await this.usersService.updateUser(id, updateUsersDto);
     }

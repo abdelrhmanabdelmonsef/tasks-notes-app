@@ -30,7 +30,7 @@ export class UsersService {
     async findUserById(id: number): Promise<IapiresponseInterface<UserResponseDto>> {
         const user = await this.usersRepository.findOne({ where: { id } });
         if (!user) {
-            throw new NotFoundException('User not found');
+         throw new NotFoundException('User not found')
         }
         return { message: 'User found successfully', data: user, status: HttpStatus.OK };
     }
