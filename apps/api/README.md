@@ -1,98 +1,228 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Tasks & Notes API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+NestJS REST API for user and task management with JWT authentication, role-based access control (RBAC), and PostgreSQL via TypeORM.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+**Base URL:** `http://localhost:3001` (default)
 
-## Description
+## Tech stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **NestJS 11** — modules, guards, pipes, filters
+- **TypeORM** — PostgreSQL entities and queries
+- **Passport JWT** — bearer token authentication
+- **class-validator** — request validation
+- **bcrypt** — password hashing
 
-## Project setup
+## Prerequisites
+
+- Node.js 18+
+- PostgreSQL database
+
+## Setup
+
+### 1. Install dependencies
 
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
+### 2. Environment variables
+
+Copy `.env.example` to `.env`:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+cp .env.example .env
 ```
 
-## Run tests
+| Variable      | Description              | Example        |
+| ------------- | ------------------------ | -------------- |
+| `DB_HOST`     | PostgreSQL host          | `localhost`    |
+| `DB_PORT`     | PostgreSQL port          | `5432`         |
+| `DB_USERNAME` | Database user            | `postgres`     |
+| `DB_PASSWORD` | Database password        | —              |
+| `DB_NAME`     | Database name            | `tasks_db`     |
+| `SECRET_KEY`  | JWT signing secret       | —              |
+| `PORT`        | API port (optional)      | `3001`         |
+
+### 3. Seed sample data
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run seed
 ```
 
-## Deployment
+Creates users and tasks from `src/database/seed-data.ts`. Default seed passwords: `password123`.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+| Email              | Username |
+| ------------------ | -------- |
+| alice@test.com     | alice    |
+| bob@test.com       | bob      |
+| charlie@test.com   | charlie  |
+| diana@test.com     | diana    |
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 4. Start the server
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Development (watch mode)
+npm run start:dev
+
+# Production build
+npm run build
+npm run start:prod
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Scripts
 
-## Resources
+| Command           | Description                    |
+| ----------------- | ------------------------------ |
+| `npm run start:dev` | Dev server with hot reload   |
+| `npm run build`     | Compile TypeScript           |
+| `npm run seed`      | Seed database                |
+| `npm run test`      | Unit tests                   |
+| `npm run test:e2e`  | End-to-end tests             |
+| `npm run lint`      | ESLint                       |
 
-Check out a few resources that may come in handy when working with NestJS:
+## Authentication
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Login
 
-## Support
+```http
+POST /auth/login
+Content-Type: application/json
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+{
+  "email": "alice@test.com",
+  "password": "password123"
+}
+```
 
-## Stay in touch
+Response:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```json
+{
+  "message": "Login successful",
+  "data": { "token": "<jwt>" },
+  "status": 200
+}
+```
+
+Use the token on protected routes:
+
+```http
+Authorization: Bearer <jwt>
+```
+
+JWT payload includes `sub` (user id), `email`, and `role` (`user` | `admin`).
+
+## Roles (RBAC)
+
+| Role    | Value   | Default |
+| ------- | ------- | ------- |
+| `USER`  | `user`  | yes     |
+| `ADMIN` | `admin` | no      |
+
+Admin-only routes use `@Roles(Role.ADMIN)` with `JwtAuthGuard` and `RolesGuard`.
+
+## API endpoints
+
+### Auth
+
+| Method | Path          | Auth | Description |
+| ------ | ------------- | ---- | ----------- |
+| POST   | `/auth/login` | No   | Login, get JWT |
+
+### Users
+
+| Method | Path         | Auth        | Description        |
+| ------ | ------------ | ----------- | ------------------ |
+| POST   | `/users`     | No          | Register user      |
+| GET    | `/users`     | Admin       | List all users     |
+| GET    | `/users/:id` | JWT         | Get user by id     |
+| PATCH  | `/users/:id` | JWT         | Update user        |
+| DELETE | `/users/:id` | Admin       | Delete user        |
+
+### Tasks
+
+All task routes require JWT.
+
+| Method | Path          | Description                          |
+| ------ | ------------- | ------------------------------------ |
+| GET    | `/tasks`      | List current user's tasks (paginated)|
+| GET    | `/tasks/:id`  | Get task by id (owner only)          |
+| POST   | `/tasks`      | Create task                          |
+| PATCH  | `/tasks/:id`  | Update task                          |
+| DELETE | `/tasks/:id`  | Delete task                          |
+
+#### Task list query parameters
+
+| Param       | Type    | Description                          |
+| ----------- | ------- | ------------------------------------ |
+| `completed` | boolean | Filter by completion status          |
+| `priority`  | string  | `low`, `medium`, `high`              |
+| `page`      | number  | Page number (default: 1)             |
+| `limit`     | number  | Items per page (default: 5, max: 100)|
+| `sortField` | string  | `id`, `title`, `priority`            |
+| `sortOrder` | string  | `asc`, `desc`                        |
+
+## Response formats
+
+### Success
+
+```json
+{
+  "message": "Tasks found",
+  "data": [],
+  "status": 200,
+  "meta": {
+    "total": 0,
+    "page": 1,
+    "limit": 5,
+    "totalPages": 0,
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+    "sortField": "id",
+    "sortOrder": "asc"
+  }
+}
+```
+
+### Error
+
+All errors return a consistent shape via the global `HttpExceptionFilter`:
+
+```json
+{
+  "success": false,
+  "status": 404,
+  "message": "Task not found",
+  "timestamp": "2026-08-03T14:00:00.000Z",
+  "path": "/tasks/99",
+  "error": "Not Found"
+}
+```
+
+Validation errors join multiple field messages into a single `message` string.
+
+## Project structure
+
+```
+src/
+├── common/
+│   └── filters/          # Global exception filter
+├── database/
+│   ├── seed.ts           # Seed runner
+│   └── seed-data.ts      # Sample data
+├── modules/
+│   ├── auth/             # Login, JWT, guards, roles
+│   ├── tasks/            # Task CRUD
+│   ├── users/            # User CRUD
+│   └── interfaces/       # Shared response types
+├── app.module.ts
+└── main.ts
+```
+
+## HTTP requests
+
+Example requests are in [`requests/req.http`](requests/req.http). Use with the VS Code REST Client extension or similar.
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+UNLICENSED (private project)
