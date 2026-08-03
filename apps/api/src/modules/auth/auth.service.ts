@@ -24,7 +24,7 @@ export class AuthService {
         if (!isPasswordValid) {
             throw new UnauthorizedException('Invalid credentials');
         }
-        const payload = { email: user.email, sub: user.id };
+        const payload = { email: user.email, sub: user.id, role: user.role };
         const token = await this.jwtService.signAsync(payload);
         return { message: 'Login successful', data: { token }, status: HttpStatus.OK };
     }

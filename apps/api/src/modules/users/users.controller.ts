@@ -5,7 +5,9 @@ import { UpdateUsersDto } from './dto/update-user.dto/update-user.dto';
 import { IapiresponseInterface } from '../interfaces/iapiresponse.interface/iapiresponse.interface';
 import { UserResponseDto } from './dto/user-response.dto/user-response.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-
+import { Role } from '../auth/rolse/rolse.enum';
+import { RolesGuard } from '../auth/guards/RolesGuard.gurad';
+import { Roles } from '../auth/decorators/roles.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -16,7 +18,8 @@ export class UsersController {
     }
 
     @Get()
-    @UseGuards(JwtAuthGuard)
+    @Roles(Role.ADMIN)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     async findAllUsers() :Promise<IapiresponseInterface<UserResponseDto>> {
         return await this.usersService.findAllUsers();
     }

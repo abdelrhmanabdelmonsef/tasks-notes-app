@@ -1,6 +1,7 @@
 import { TasksEntity } from "src/modules/tasks/entities/tasks.entity/tasks.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Exclude } from "class-transformer";
+import { Role } from "src/modules/auth/rolse/rolse.enum";
 
 
 @Entity('users')
@@ -23,4 +24,7 @@ export class UserEntity {
     @Exclude()
     @Column()
     password!: string;
+
+    @Column({ type: 'enum', enum: Role ,default: Role.USER})
+    role!: Role ;
 }

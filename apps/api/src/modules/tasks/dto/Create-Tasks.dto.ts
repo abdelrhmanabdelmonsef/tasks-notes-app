@@ -1,5 +1,4 @@
 import { IsNotEmpty, IsOptional, IsString, IsBoolean, IsEnum, IsObject, Min, IsInt } from "class-validator";
-import { UserEntity } from "src/modules/users/entities/users.entity/users.entity";
 
 
 export enum Priority {

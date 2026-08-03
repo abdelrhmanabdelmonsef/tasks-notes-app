@@ -1,4 +1,11 @@
 {
+  "name": "tasks-notes-app",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"npm run start:dev --prefix apps/api\" \"npm run dev --prefix apps/web\"",
+    "dev:api": "npm run start:dev --prefix apps/api",
+    "dev:web": "npm run dev --prefix apps/web"
+  },
   "dependencies": {
     "@nestjs/passport": "^11.0.5",
     "bcrypt": "^6.0.0",
@@ -7,6 +14,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
-    "@types/passport-jwt": "^4.0.1"
+    "@types/passport-jwt": "^4.0.1",
+    "concurrently": "^9.2.1"
   }
 }
